@@ -1,0 +1,42 @@
+version: '3'
+
+services:
+  mosquitto:
+    image: eclipse-mosquitto:latest
+    container_name: mosquitto
+    privileged: true
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - ./mosquitto/config/mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - ./mosquitto_log:/mosquitto/log
+
+  mosquitto-subscriber:
+    image: eclipse-mosquitto:latest
+    container_name: mosquitto-subscriber
+    command: mosquitto_sub -h mosquitto -t "#" -v
+    depends_on:
+      - mosquitto
+
+  putting-app:
+    build:
+      context: .
+      dockerfile: Containerfile
+    container_name: putting-app
+    privileged: true
+    devices:
+      - /dev/bus/usb:/dev/bus/usb  # Forward USB devices
+      - /dev/ttyUSB0:/dev/ttyUSB0  # Forward a specific USB device, modify as per your actual device
+    volumes:
+      - ./app:/app
+    command: python3 /app/main.py
+    environment:
+      - MQTT_BROKER=mosquitto
+      - BLE_ID=PL2B2118 # Replace this with the ID of your golfball. You can get this by using the scan.py script in the app folder
+                        # Run 'python3 scan.py "^PL"' and it will scan for the golf ball and list out its characteristics
+                        # The complete BLE ID is shown near the top of the output and starts with PL
+
+networks:
+  default:
+    name: putting
