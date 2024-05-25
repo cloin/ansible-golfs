@@ -2,21 +2,20 @@ version: '3'
 
 services:
   mosquitto:
-    image: eclipse-mosquitto:latest
+    build:
+      context: .
+      dockerfile: Containerfile.mosquitto
     container_name: mosquitto
     privileged: true
     ports:
       - "1883:1883"
       - "9001:9001"
     volumes:
-      - ./mosquitto/config/mosquitto.conf.template:/mosquitto/config/mosquitto.conf.template
-      - ./mosquitto/start_mosquitto.sh:/start_mosquitto.sh
       - ./mosquitto_log:/mosquitto/log
-    entrypoint: ["/start_mosquitto.sh"]
     environment:
-      - REMOTE_ADDRESS=YOUR_MQTT_BROKER:1883
-      - REMOTE_USERNAME=YOUR_USERNAME
-      - REMOTE_PASSWORD=YOUR_PASSWORD
+      - REMOTE_ADDRESS=REMOTE_BROKER:1883 # Replace this with the IP address of your MQTT broker
+      - REMOTE_USERNAME=BROKER_USER       # Replace this with the username of your MQTT broker
+      - REMOTE_PASSWORD=BROKER_PASS       # Replace this with the password of your MQTT broker
 
   mosquitto-subscriber:
     image: eclipse-mosquitto:latest
@@ -28,7 +27,7 @@ services:
   putting-app:
     build:
       context: .
-      dockerfile: Containerfile
+      dockerfile: Containerfile.app
     container_name: putting-app
     privileged: true
     devices:

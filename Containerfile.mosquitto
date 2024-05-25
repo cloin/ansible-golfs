@@ -1,0 +1,11 @@
+FROM eclipse-mosquitto:latest
+
+# Update and install gettext
+RUN apk update && apk add gettext
+
+# Copy mosquitto templated configuration file and start script
+COPY mosquitto/start_mosquitto.sh /start_mosquitto.sh
+COPY mosquitto/config/mosquitto.conf.template /mosquitto/config/mosquitto.conf.template
+
+# Run mosquitto start script as entrypoint which pulls in environment variables from podman-compose.yml
+ENTRYPOINT ["/start_mosquitto.sh"]
