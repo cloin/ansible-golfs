@@ -9,8 +9,14 @@ services:
       - "1883:1883"
       - "9001:9001"
     volumes:
-      - ./mosquitto/config/mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - ./mosquitto/config/mosquitto.conf.template:/mosquitto/config/mosquitto.conf.template
+      - ./mosquitto/start_mosquitto.sh:/start_mosquitto.sh
       - ./mosquitto_log:/mosquitto/log
+    entrypoint: ["/start_mosquitto.sh"]
+    environment:
+      - REMOTE_ADDRESS=YOUR_MQTT_BROKER:1883
+      - REMOTE_USERNAME=YOUR_USERNAME
+      - REMOTE_PASSWORD=YOUR_PASSWORD
 
   mosquitto-subscriber:
     image: eclipse-mosquitto:latest
