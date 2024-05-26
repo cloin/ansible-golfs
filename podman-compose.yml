@@ -31,11 +31,15 @@ services:
     container_name: putting-app
     privileged: true
     devices:
-      - /dev/bus/usb:/dev/bus/usb  # Forward USB devices
-      - /dev/ttyUSB0:/dev/ttyUSB0  # Forward a specific USB device, modify as per your actual device
+      # - /dev/bus/usb:/dev/bus/usb  # Forward USB devices
+      # - /dev/ttyUSB0:/dev/ttyUSB0  # Forward a specific USB device, modify as per your actual device
     volumes:
       - ./app:/app
     command: python3 /app/main.py
+    characteristics:
+        cap_add:
+          - NET_ADMIN
+          - SYS_ADMIN
     environment:
       - MQTT_BROKER=mosquitto
       - BLE_ID=PL2B2118 # Replace this with the ID of your golfball. You can get this by using the scan.py script in the app folder

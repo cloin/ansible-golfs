@@ -8,6 +8,7 @@ COPY app/requirements.txt .
 
 # Install dependencies
 RUN pip install -r requirements.txt
+RUN apt-get update && apt-get install bluez python3-bluez -y
 
 # Copy application files
 COPY app/ .
