@@ -6,6 +6,7 @@ services:
       context: .
       dockerfile: Containerfile.mosquitto
     container_name: mosquitto
+    network_mode: host
     privileged: true
     ports:
       - "1883:1883"
@@ -20,6 +21,7 @@ services:
   mosquitto-subscriber:
     image: eclipse-mosquitto:latest
     container_name: mosquitto-subscriber
+    network_mode: host
     command: mosquitto_sub -h mosquitto -t "#" -v
     depends_on:
       - mosquitto
@@ -29,6 +31,7 @@ services:
       context: .
       dockerfile: Containerfile.app
     container_name: putting-app
+    network_mode: host
     privileged: true
     devices:
       # - /dev/bus/usb:/dev/bus/usb  # Forward USB devices
@@ -45,7 +48,3 @@ services:
       - BLE_ID=PL2B2118 # Replace this with the ID of your golfball. You can get this by using the scan.py script in the app folder
                         # Run 'python3 scan.py "^PL"' and it will scan for the golf ball and list out its characteristics
                         # The complete BLE ID is shown near the top of the output and starts with PL
-
-networks:
-  default:
-    name: putting
