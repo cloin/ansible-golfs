@@ -1,4 +1,4 @@
-FROM eclipse-mosquitto:latest
+FROM docker.io/library/eclipse-mosquitto:latest
 
 # Update and install gettext
 RUN apk update && apk add gettext
