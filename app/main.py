@@ -21,7 +21,7 @@ async def main():
 
     device_name, friendly_name = args.golfball.split(':')
 
-    mqtt_client = MQTTClient(args.mqtt_broker, "golfball")
+    mqtt_client = MQTTClient(args.mqtt_broker, "ansible-golfs")
     ble_device = BLEDevice(device_name)
 
     try:

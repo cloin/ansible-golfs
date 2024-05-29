@@ -1,4 +1,3 @@
-# ble_module.py
 from bleak import BleakScanner, BleakClient
 import asyncio
 import logging
@@ -61,12 +60,13 @@ class BLEDevice:
             for uuid, name in self.CHARACTERISTICS_OF_INTEREST.items():
                 try:
                     logging.info(f"Attempting to subscribe to {name} with UUID {uuid}")
-                    await self.client.start_notify(uuid, lambda s, d: asyncio.create_task(handler(s, d, mqtt_client, name, self.client)))
+                    await self.client.start_notify(uuid, lambda s, d, name=name: asyncio.create_task(handler(s, d, mqtt_client, name, self.client)))
                     logging.info(f"Subscribed to notifications for {name} with UUID {uuid}")
                 except Exception as e:
                     logging.error(f"Failed to subscribe to {name} with UUID {uuid}: {e}")
         except Exception as e:
             logging.error(f"Error discovering services or subscribing to characteristics: {e}")
+
 
     async def disconnect(self):
         if self.client and self.client.is_connected:

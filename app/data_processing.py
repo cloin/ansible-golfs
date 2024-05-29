@@ -1,4 +1,3 @@
-# data_processing.py is responsible for processing the data received from the BLE device and sending it to the MQTT broker.
 import logging
 import json
 import asyncio
@@ -39,7 +38,7 @@ async def process_notification(sender, data, mqtt_client, characteristic_name, b
             state_index = data[0]
             data_value = BALL_STATE_ENUM[state_index] if state_index < len(BALL_STATE_ENUM) else "UNKNOWN_STATE"
             
-            if data_value == "ST_PUTT_COMPLETE":
+            if data_value == "ST_PUTT_STARTED":
                 stroke_counter += 1
             elif data_value == "ST_PUTT_NOT_COUNTED":
                 stroke_counter = max(stroke_counter - 1, 0)  # Ensure counter doesn't go below 0
@@ -54,12 +53,12 @@ async def process_notification(sender, data, mqtt_client, characteristic_name, b
                 await ble_client.write_gatt_char(BLEDevice.CHARACTERISTIC_READY_UUID, bytearray([0x01]))  # Set Ready back to 1
 
         # Construct and send the MQTT message
-        if characteristic_name in ["ballState", "ballRollCount", "Velocity"]:
+        if characteristic_name in ["ballState", "ballRollCount", "Velocity", "Ready"]:
             message = {"data": data_value, "stroke": stroke_counter}
         else:
             message = {"data": data_value}
 
-        mqtt_topic = f"{characteristic_name}"
+        mqtt_topic = f"golfball/{characteristic_name}"
         await mqtt_client.publish(mqtt_topic, message)
 
         logging.info(f"BLE Notification: {characteristic_name} - {json.dumps(message)}")
@@ -73,6 +72,7 @@ async def process_notification(sender, data, mqtt_client, characteristic_name, b
         logging.error(f"Error handling BLE notification for {characteristic_name}: {e}")
 
 async def handle_command(message, ble_device):
+    global stroke_counter
     logging.info(f"Received command message: {message}")
     command = message.get('command')
     logging.info(f"Extracted command: {command}")
