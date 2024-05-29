@@ -26,25 +26,25 @@ services:
     depends_on:
       - mosquitto
 
-  putting-app:
-    build:
-      context: .
-      dockerfile: Containerfile.app
-    container_name: putting-app
-    network_mode: host
-    privileged: true
-    devices:
-      # - /dev/bus/usb:/dev/bus/usb  # Forward USB devices
-      # - /dev/ttyUSB0:/dev/ttyUSB0  # Forward a specific USB device, modify as per your actual device
-    volumes:
-      - ./app:/app
-    command: python3 /app/main.py
-    characteristics:
-        cap_add:
-          - NET_ADMIN
-          - SYS_ADMIN
-    environment:
-      - MQTT_BROKER=mosquitto
-      - BLE_ID=PL2B2118 # Replace this with the ID of your golfball. You can get this by using the scan.py script in the app folder
-                        # Run 'python3 scan.py "^PL"' and it will scan for the golf ball and list out its characteristics
-                        # The complete BLE ID is shown near the top of the output and starts with PL
+  # putting-app:
+  #   build:
+  #     context: .
+  #     dockerfile: Containerfile.app
+  #   container_name: putting-app
+  #   network_mode: host
+  #   privileged: true
+  #   devices:
+  #     # - /dev/bus/usb:/dev/bus/usb  # Forward USB devices
+  #     # - /dev/ttyUSB0:/dev/ttyUSB0  # Forward a specific USB device, modify as per your actual device
+  #   volumes:
+  #     - ./app:/app
+  #   command: python3 /app/main.py
+  #   characteristics:
+  #       cap_add:
+  #         - NET_ADMIN
+  #         - SYS_ADMIN
+  #   environment:
+  #     - MQTT_BROKER=mosquitto
+  #     - BLE_ID=PL2B2118 # Replace this with the ID of your golfball. You can get this by using the scan.py script in the app folder
+  #                       # Run 'python3 scan.py "^PL"' and it will scan for the golf ball and list out its characteristics
+  #                       # The complete BLE ID is shown near the top of the output and starts with PL
