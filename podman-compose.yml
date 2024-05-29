@@ -21,7 +21,6 @@ services:
   mosquitto-subscriber:
     image: eclipse-mosquitto:latest
     container_name: mosquitto-subscriber
-    network_mode: host
     command: mosquitto_sub -h mosquitto -t "#" -v
     depends_on:
       - mosquitto
