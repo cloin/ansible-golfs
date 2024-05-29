@@ -6,7 +6,6 @@ services:
       context: .
       dockerfile: Containerfile.mosquitto
     container_name: mosquitto
-    network_mode: host
     privileged: true
     ports:
       - "1883:1883"
