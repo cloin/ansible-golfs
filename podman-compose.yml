@@ -24,6 +24,7 @@ services:
     depends_on:
       - mosquitto
 
+  # TODO: It's hard to use bluetooth within a container. No idea how to get this working.
   # putting-app:
   #   build:
   #     context: .
