@@ -22,9 +22,8 @@ The script will attempt to find the device up to 5 times before giving up. If a 
 it will connect and list all available services, characteristics along with their values if they
 are readable, and descriptors.
 
-Note:
-    This script is intended for educational and diagnostic purposes. It may not work with all
-    BLE devices, and the interpretation of the characteristic values is left to the user.
+### I use this with puttlink golf balls
+
 """
 
 import asyncio
