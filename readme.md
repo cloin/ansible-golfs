@@ -45,6 +45,11 @@ MQTT was selected for the small footprint, ease of configuration and is common i
 ### Python application
 This application uses bluetooth low energey (BLE) to connect to the golfball and subscribes to the BLE characteristics (ball rotation, ball in cup, ball speed, etc.). The application prints the sensor data published over these characteristics to the local MQTT broker which then mirrors the sensor data to the remote MQTT broker.
 
+Install requirements:
+~~~
+pip install -r app/requirements.txt
+~~~
+
 Run the application locally on the compute you have available. There are two flags accepted by the application which correspond to the address of the local MQTT broker (e.g. localhost) and the BLE address of the particular golf ball you have with you. Here's an example:
 
 ~~~
