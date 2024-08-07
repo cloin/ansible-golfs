@@ -53,6 +53,6 @@ python app/main.py -m localhost:1883 -g PL2B1188
 
 I've also bundled a python app that will retrieve the golfball BLE ID needed in the previous command. Run it like this:
 ~~~
-python scan.py "^PL2B.*"
+python app/scan.py "^PL2B.*"
 ~~~
 The above command scans for Puttlink devices in pairing mode and prints the devices characteristic UUIDs and should show the BLE ID of the golfball at the top of the output.
