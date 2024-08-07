@@ -11,6 +11,7 @@ This is a demo that uses a golf ball from Puttlink, an app to connect to the gol
     - There's a magnet included with each ball purchase that should be placed within the cup
 - Raspberry Pi or other compute
     - Runs a python app to connect to bluetooth golfball and a MQTT broker to stream data to
+- Display/monitor into Raspberry Pi or presenter laptop
 - Putters
     - **Do not get rubber coated putters**, opt for some kind of metal that will create a heavier impact on the ball to ensure putts are registered
 - Putting surface
